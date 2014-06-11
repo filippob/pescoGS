@@ -1,0 +1,337 @@
+\pdfminorversion=5
+%\documentclass[english,a4paper]{article}
+%\documentclass[english,a4paper]{scrartcl}
+%\documentclass[english]{sig-alternate}
+\documentclass[english,11pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{amssymb,xfrac}
+\usepackage{appendix}
+%\usepackage{authblk}
+%\usepackage[DIV=10]{typearea}
+\usepackage{amsfonts, amsmath, hanging, natbib, parskip}
+\usepackage{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\definecolor{dark-red}{rgb}{0.4,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+\hypersetup{
+    colorlinks, linkcolor={dark-red},
+    citecolor={dark-blue}, urlcolor={medium-blue}
+}
+\begin{document}
+\title{Genome-enabled predictions for fruit weight traits in peach trees
+(\emph{Prunus persica})}
+%\author{F. Biscarini,\and N. Nazzicari, \and D. Bassi, \and I. Pacheco
+%  Cruz, \and A. Stella, \and L. Rossini, \and D. Gianola}
+%\author[1]{F. Biscarini\thanks{A.A@university.edu}}
+%\author[1]{N. Nazzicari}
+%\author[2]{D. Bassi}
+%\author[2]{I. Pacheco Cruz}
+%\author[1]{A. Stella}
+%\author[3]{L. Rossini}
+%\author[4]{D. Gianola}
+%\affil[1]{Department of Bioinformatics, PTP}
+%\affil[2]{Department of Plant Biology, University of Milan}
+%\affil[2]{Department of Plant Genomics, PTP}
+%\affil[2]{Department of Animal Breeding \& Genetics, University of Wisconsin}
+
+%\renewcommand\Authands{ and }
+\date{}
+\maketitle
+
+\section*{Introduction}
+
+1) GS in general
+
+2) GS has recently being intriduced in trees as well
+
+see other papers on GS in trees
+
+3) peach (why? importance, expectations, ...)
+
+4) this paper
+
+\section*{Material \& Methods}
+
+\subsection*{Plant material}
+
+\subsection*{Phenotypes}
+
+\subsection*{Genotypes}
+
+\subsection*{Genomic relationships between individual trees}
+The availability of SNP marker genotypes allows the estimation of
+genomic (~``realised'') relationships between individuals. There are
+however several methods to estimate genomic relationships, which
+basically differ in the way in which they account for allele
+frequencies.
+Three methods to estimate genomic relationships have been so far
+considered (all starting from a matrix $\boldsymbol{M}$ of marker genotypes coded as -1,
+0 and 1): 
+
+\begin{itemize}
+\item simple centering and standardization (here named \emph{G1}): from each SNP genotype column
+  in the (n individuals x m markers) matrix $\boldsymbol{M}$ of marker
+  genotypes, subtract the mean and then divide by the standard
+  deviation. Let the resulting matrix be $\boldsymbol{Z}$. Then multply
+  $\boldsymbol{ZZ^T}$ to obtain the matrix of genomic relationships $\boldsymbol{G1}$; 
+\item The method outlined by \cite{vanraden2008efficient} -here named
+  \emph{GVR}- which first centres $\boldsymbol{M}$ to obtain $\boldsymbol{Z}$, then multiplies
+  $\boldsymbol{ZZ^T}$, and finally corrects everything for the allele
+  frequencies to obtain $\boldsymbol{GVR}$;
+\item The method described by \cite{astle2009population} -here named
+  \emph{GAB}- which corrects
+  for the allele frequencies at each locus when computing the matrix of
+  genomic relationships  $\boldsymbol{GAB}$  
+\end{itemize}
+
+In each of the 3 cases, genomic relationships were scaled to be analogous to the
+pedigree relationship matrix, with minimum $0$ and maximum $2$.
+
+To start off, the three methods were applied to the data of the
+% \emph{Bolero x OroA} 
+F1 progeny. Results were compared in terms of mean, standard
+deviation and coefficient of variation of the genomic relationships
+(Table~\ref{tab:stats}).
+
+The methods by Van Raden and Astle \& Balding gave very similar results
+in terms of the variation of the estimated genomic relationships (except
+that were on slightly different scales, due to the different correction
+for allele frequency). The G1 method gave the highest variability (CV
+$41.5\%$ compared to ~$38.5\%$ for the other two methods).
+
+\input{TableStats}
+
+The correlations between genomic relationships were practically 1
+(0.999) between GVR and GAB, and slightly lower (~$0.94$) for method G1
+(see Table~\ref{tab:corr}). 
+
+\input{TableCorr}
+
+Figures~\ref{fig:G1}, \ref{fig:GVR} and \ref{fig:GAB} show the heatmaps
+of the genomic relationships estimated with the three methods.
+
+The matrix $\boldsymbol{MM^T}$ has on the diagonal the number of
+homozygous loci for each individual tree (average $1282.9$), and off
+the diagonal the number of alleles shared by individual trees (average
+$638.6$). The matrix $\boldsymbol{M^TM}$, instead, reports on the
+diagonal the number of homozygous individuals at each locus (average
+$40.8$).
+
+We have so far edited the data for Call-rate ($>90$) and MAF ($>2.5$)
+and then imputed the residual mising genotypes. However, since the trees
+that we are analysing are the progeny (F1) of inbred parental lines,
+there is a high proportion of SNPs whose genotypes are completely
+heterozygotes (they are all AB). These SNPs may impair numerical
+stability, and are probably not informative. It may be considered to
+remove such SNPs prior to the genomic selection analyses.   
+
+As for deciding which matrix of genomic relationships should be used, we
+could look at the variability (the higher the better, on the assumption
+that we try to capture the differences between individuals which are
+rather similar -thery're all ~``full sibs''). Or we could take into
+account the correlations. Suggestions could be found also in the paper
+by \cite{chen2011effect}, who analysed the effect of using different
+genomic relationship matrices on the prediction of genomic breeding
+values.
+
+However, it should be kept in mind that the choice of the method to
+estimate genomic relationships between individuals is not expected to be
+largely influential from a predictive point of view.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\textwidth]{{G1.heatmap}.jpg}
+\caption{Heatmap of the G1 matrix}
+\label{fig:G1}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\textwidth]{{GVR.heatmap}.jpg}
+\caption{Heatmap of the GVR matrix}
+\label{fig:GVR}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\textwidth]{{GAB.heatmap}.jpg}
+\caption{Heatmap of the GAB matrix}
+\label{fig:GAB}
+\end{figure}
+
+\subsection*{G-BLUP}
+A GBLUP of the following form was run to estimate the genomic breeding
+values for average fruit weight:
+
+\begin{equation}
+\boldsymbol{y}=\boldsymbol{1\mu}+\boldsymbol{Zu}+\boldsymbol{e}
+\end{equation}
+
+where $\boldsymbol{y}$ is the vector of the average fruit weights in
+grams, $\mu$ is the overall mean, $\boldsymbol{u}$ is the
+vector of the random genomic effects of each treee, and $\boldsymbol{e}$ is a
+vector of residuals. $\boldsymbol{1}$ is a vector of 1s and
+$\boldsymbol{Z}$ is a matrix relating observations in $\boldsymbol{y}$ to
+the random genomic effects in $\boldsymbol{u}$.
+
+For the random part of the model, the genetic variance is
+$Var(u)=G\sigma^2_u$, and the residual variance is
+$Var(e)=R=I\sigma^2_e$.
+For the genetic variance either the matrix of genomic relationships
+\`{a} la Van Raden (GVR) or that \`{a} la Astle \& Balding (GAB) were used. 
+
+The resulting mixed model equations looked therefore like:
+
+\begin{equation}
+\begin{bmatrix}
+\mu \\
+\boldsymbol{\hat{u}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\boldsymbol{1^\prime}\boldsymbol{1} & \boldsymbol{1^\prime}\boldsymbol{Z} \\
+\boldsymbol{Z^\prime}\boldsymbol{1} & \boldsymbol{Z^\prime}\boldsymbol{Z}+\boldsymbol{G^{-1}\alpha}
+\end{bmatrix}
+\begin{bmatrix}
+\boldsymbol{1^\prime}\boldsymbol{y} \\
+\boldsymbol{Z^\prime}\boldsymbol{y}
+\end{bmatrix}
+\end{equation}
+
+where $\alpha$ is the ration between the residual and the genetic
+variance ($\frac{\sigma^2_e}{\sigma^2_u}$).
+
+A 5-fold cross validation scheme was employed to estimate the predictive
+ability of the two different implementations of \emph{GBLUP}. The total
+dataset was split into 5 subsets: 4 of these were used as training set
+to set up the model and estimate variance components; the remaining $1/5$ of the data was
+used as validation in which the known observations (the \emph{y's} were
+masked and artificially considered to be missing. Each of the 5 subsets
+was used in turn as validation set, to make sure that every observation
+was at least once predicted from the model.
+This process was repeated 100 times so to have -in the end- 500
+replicates of the analysis.
+ 
+The predictive ability was defined as the Pearson correlation between
+the genomic breeding values (the $\hat{u}$s of
+the model) and the known -masked- average fruit weights of each
+tree in the validation set.
+
+For each of the 500 replicates, the heritability of the trait (average
+weight of 10 fruits per tree) was estimated as the ratio between the
+genetic variance and the total phenotypic variance ($\frac{\sigma^2_u}{\sigma^2_u+\sigma^2_e=\sigma^2_p}$).
+
+The mean predictive ability over the 500 replicates, its standard
+deviation, the mean $h^2$ and its standard errors are reported in
+Table~\ref{tab:CrossValGBLUP}.  
+
+Such high heritability ($\sim 80\%$), is likely to be due to the fact
+that we are analysing average measurements. Let the residual variance of
+a single item be $\sigma^2_e$, then the residual variance of the mean of
+n items would be $\sfrac{\sigma^2_e}{n}$, and the heritability: 
+\begin{equation} \label{eq:h2mean}
+h^{2*}=\frac{\sigma^2_u}{\sigma^2_u+\sfrac{\sigma^2_e}{n}}=\frac{n}{n+\sfrac{(1-h^2)}{h^2}}
+\end{equation}
+
+where $h^{2*}$ is the heritability of average observations and $h^2$ is
+the heritability of single observations. This implies that if the
+heritability of the average weight of 10 fruits is \textasciitilde 0.8,
+the heritability of the weight of a single fruit would be (from
+rearrangements of equation~\ref{eq:h2mean})
+\textasciitilde 0.3.
+
+\begin{table}
+%\begin{center}
+\centering
+\begin{tabular}{l c c c c}
+G matrix & $\overline{PredAb}$ & $\sigma_{PredAb}$ & $h^2$ & s.e. \\
+\hline
+GVR & 0.727 & 0.084 & 0.77 & 0.077 \\
+GAB & 0.730 & 0.082 & 0.79 & 0.074 \\
+\end{tabular}
+\caption{Predictive ability and heritability for average fruit weight in
+  peach trees (results are averages over 500 cross-validation replicates).}
+\label{tab:CrossValGBLUP}
+%\end{center}
+\end{table}
+
+\subsection*{Repeatability model}
+Repeated observations on average fruit weight in two consecutive years
+(2007 and 2008) are available for the peach tree population under
+analysis. Therefore, it might be appropriate to use this additional
+information by fitting a repeatability model to the data.
+In a repeatability model the phenotypic variance is partitioned into
+the genetic variance (we are now considering just the additive genetic
+effects), permanent
+environmental variance and residual (or, loosely speaking,
+temporary environmental) variance: $\sigma^2_y=\sigma^2_a+\sigma^2_{pe}+\sigma^2_e$.
+
+A repeatability model allows for the estimation not only of the
+\emph{heritability} ($h^2=\frac{\sigma^2_a}{\sigma^2_y}$), but also of the
+correlation between successive records of an individual, known as
+\emph{repeatability} ($r=\frac{\sigma^2_a+\sigma^2_{pe}}{\sigma^2_y}$). 
+
+In matrix notation, our repeatability model had the following form:
+
+\begin{equation}
+\boldsymbol{y}=\boldsymbol{1\mu}+\boldsymbol{Za}+\boldsymbol{Wpe}+\boldsymbol{e}
+\end{equation}
+
+where
+{\renewcommand\labelitemi{}
+\begin{itemize}
+\item $\boldsymbol{y}$ is the vector of observations (average weight of 10
+  fruits per tree per year)
+\item $\boldsymbol{\mu}$ is the overall mean
+\item $\boldsymbol{a}$ is the vector of individual genomic values
+\item $\boldsymbol{pe}$ is the vector of permanent environmental effects
+  (one per tree)
+\item $\boldsymbol{1}$ is a vector of 1s
+\item $\boldsymbol{Z}$ and $\boldsymbol{W}$ are incidence matrices relating
+  records to the genomic and permanent environment effects
+\end{itemize}
+}
+
+
+Si analizamos la repetibilidad de promedios basados en n frutos, la contribution proporcional de la varianza ambiental permanente a la variacion entre promedios (Vg+Vp+Ve/n) es
+
+n(r-h2)/[1+(n-1)*r]
+
+donde r es la repetibilidad de un fruto individual.
+
+Si, ademas n tiene a infinito, la formula anterior tiende a 1-h2/r2 o sea cerca de cero cuando h2 y r2 son parecidas.
+
+La conclusion es que en esta caracteristica (peso de un fruto), r
+estaria muy cerca de h2, descontandose entonces la presencia de
+no-aditividad.
+
+\begin{table}
+%\begin{center}
+\centering
+\begin{tabular}{l c c c c}
+Genetic Parameter & estimate & s.d. & std error & s.d. \\
+\hline
+Repeatability & 0.822 & 0.020 & 0.044 & 0.004 \\
+Heritability & 0.774 & 0.173 & 0.047 & 0.009 \\
+\end{tabular}
+\caption{Heritability and repeatability estimates, and their standard
+  error as estimated by ASREML (+ respective standard
+  deviations) for average peach weight (results are averaged over 500 cross-validation replicates).}
+\label{tab:repeatability}
+%\end{center}
+\end{table}
+
+
+\pagebreak
+
+\bibliographystyle{plainnat}
+\bibliography{biblio}
+
+\end{document}
+
